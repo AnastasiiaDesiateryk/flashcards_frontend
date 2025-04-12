@@ -105,7 +105,7 @@ const WordPuzzleGame = () => {
         .play()
         .catch((err) => console.error("Ошибка воспроизведения аудио:", err));
     }
-  };
+  }
 
   // useEffect для воспроизведения аудио при правильной сборке слова
   useEffect(() => {
@@ -120,14 +120,14 @@ const WordPuzzleGame = () => {
 
   return (
     <div className="word-puzzle-game">
-      <h1>Собери слово</h1>
+      <h1>Build the word</h1>
       {error ? (
         <p className="error">{error}</p>
       ) : (
         <>
           {/* Прогресс-бар */}
           <div className="progress-bar-container">
-            <label>Прогресс:</label>
+            <label>Progress:</label>
             <div className="progress-bar">
               <div
                 className="progress-bar-fill"
@@ -143,7 +143,7 @@ const WordPuzzleGame = () => {
           </div>
 
           <p>
-            Перевод: <strong>{translation}</strong>
+            Translation: <strong>{translation}</strong>
           </p>
 
           {/* Отображение собранного слова */}
@@ -173,7 +173,7 @@ const WordPuzzleGame = () => {
           {/* Кнопки управления */}
           <div className="controls">
             <button className="reset-button" onClick={handleReset}>
-              Сбросить
+              reset
             </button>
             {/* <button className="reset-button" onClick={() => playAudio(audio)}>
               Озвучить слово
@@ -183,9 +183,9 @@ const WordPuzzleGame = () => {
           {/* Сообщение об успехе */}
           {assembledWord.join("") === word && (
             <div className="success-message">
-              <h2>Поздравляем! Вы собрали слово: {word} 🎉</h2>
+              <h2>Congratulations! You formed the word: {word} 🎉</h2>
               <button className="next-button" onClick={nextWord}>
-                Следующее слово
+                next word
               </button>
             </div>
           )}
