@@ -1,0 +1,58 @@
+/* Main container of the memory game */
+.memory-game-container {
+  text-align: center;
+}
+
+/* Grid layout for the cards */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(100px, 1fr)
+  ); /* Responsive columns */
+  gap: 10px; /* Space between cards */
+  justify-items: center; /* Center each card horizontally */
+  margin: 20px; /* Outer spacing */
+}
+
+/* Base styling for each memory card */
+.memory-card {
+  width: 100px;
+  height: 100px;
+  perspective: 1000px; /* Adds 3D flip effect */
+  cursor: pointer;
+  position: relative; /* Required for absolute child elements */
+}
+
+/* Common styles for front and back sides of the card */
+.memory-card .memory-card-front,
+.memory-card .memory-card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute; /* Position on top of each other */
+  backface-visibility: hidden; /* Hide the back when flipped */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+  transition: transform 0.5s ease; /* Smooth flipping animation */
+}
+
+/* Back side of the card */
+.memory-card .memory-card-back {
+  background-color: #f0f0f0;
+  transform: rotateY(180deg); /* Initially hidden and flipped */
+}
+
+/* When a card is flipped, show the front */
+.memory-card.flipped .memory-card-front {
+  transform: rotateY(0);
+}
+
+/* When a card is flipped, hide the back */
+.memory-card.flipped .memory-card-back {
+  transform: rotateY(-180deg);
+}

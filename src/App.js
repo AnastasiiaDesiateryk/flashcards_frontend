@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import MemoryGame from "./components/MemoryGame";
 import { AuthProvider } from "./context/AuthContext";
-import Home from "./components/Home";
 import Navigation from "./components/Navigation";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -12,6 +11,7 @@ import CourseLessons from "./pages/CourseLessons";
 import Lesson from "./pages/Lesson";
 import Settings from "./pages/Settings";
 import GamePuzzle from "./pages/GamePuzzle";
+import GameMemoCard from "./pages/GameMemoCard";
 
 function App() {
   return (
@@ -69,6 +69,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <GamePuzzle />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/game-memo/course/:courseName/lesson/:lessonName"
+              element={
+                <ProtectedRoute>
+                  <GameMemoCard />
                 </ProtectedRoute>
               }
             />
