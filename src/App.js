@@ -12,6 +12,7 @@ import Lesson from "./pages/Lesson";
 import Settings from "./pages/Settings";
 import GamePuzzle from "./pages/GamePuzzle";
 import GameMemoCard from "./pages/GameMemoCard";
+import AddWord from "./pages/AddWord";
 
 function App() {
   return (
@@ -53,6 +54,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Lesson />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/import"
+              element={
+                <ProtectedRoute>
+                  <AddWord />
                 </ProtectedRoute>
               }
             />
