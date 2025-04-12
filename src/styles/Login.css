@@ -1,0 +1,32 @@
+.auth-container-dark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+  background: radial-gradient(circle at center, #444, #111);
+  padding: 1rem;
+}
+
+.auth-card-dark {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 30, 30, 0.9),
+    rgba(10, 10, 10, 0.9)
+  );
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.auth-card-dark .form-control {
+  background-color: #222;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.auth-card-dark .form-control::placeholder {
+  color: #bbb;
+}

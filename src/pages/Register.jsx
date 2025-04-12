@@ -1,42 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../styles/Login.css"; // ✅ Reuse same styles
 
 const Register = () => {
-  // State for email and password input fields
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // State to show a loading spinner while waiting for response
   const [loading, setLoading] = useState(false);
-
-  // React Router's navigation function
   const navigate = useNavigate();
 
-  // Function to handle the registration form submission
   const handleRegister = async (e) => {
-    e.preventDefault(); // Prevent page reload
-    setLoading(true); // Show spinner during request
+    e.preventDefault();
+    setLoading(true);
     try {
-      // Send POST request to backend to register user
       await axios.post("http://localhost:5000/auth/register", {
         email,
         password,
       });
-
-      // Show success message and redirect to login page
       alert("Registration successful! You can now log in.");
       navigate("/login");
     } catch (error) {
-      // Show error if registration fails
       alert("Error registering");
     } finally {
-      // Stop showing the spinner
       setLoading(false);
     }
   };
 
-  // Show spinner if loading is true
   if (loading) {
     return (
       <div
@@ -54,38 +43,36 @@ const Register = () => {
     );
   }
 
-  // Render the registration form
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        {/* Email input */}
-        <div className="mb-3">
-          <label>Email</label>
-          <input
-            type="email"
-            className="form-control"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)} // Update email state
-            required
-          />
-        </div>
-
-        {/* Password input */}
-        <div className="mb-3">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} // Update password state
-            required
-          />
-        </div>
-
-        {/* Submit button */}
-        <button className="btn btn-success">Register</button>
-      </form>
+    <div className="auth-container-dark">
+      <div className="auth-card-dark text-white">
+        <h2 className="text-center mb-4">Register</h2>
+        <form onSubmit={handleRegister}>
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button className="btn btn-success w-100 fw-semibold">
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
