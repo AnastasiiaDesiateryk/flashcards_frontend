@@ -70,7 +70,6 @@ const PuzzleGameCore = ({ wordData, onNext }) => {
 
   return (
     <div className="game-content">
-      <h1>Puzzle Game</h1>
       <p className="translation">
         Translation: <strong>{wordData.translation}</strong>
       </p>
@@ -99,7 +98,10 @@ const PuzzleGameCore = ({ wordData, onNext }) => {
 
       {/* Controls */}
       <div className="controls">
-        <button className="reset-button" onClick={handleReset}>
+        <button
+          className="reset-button btn btn-info fw-semibold mt-3"
+          onClick={handleReset}
+        >
           Reset
         </button>
       </div>

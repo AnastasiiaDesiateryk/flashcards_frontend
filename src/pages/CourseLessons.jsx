@@ -49,17 +49,27 @@ const CourseLessons = () => {
     if (count >= 4) return 100;
     return (count / 4) * 100;
   };
-
+  useEffect(() => {
+    document.body.classList.add("course-lessons-page");
+    return () => {
+      document.body.classList.remove("course-lessons-page");
+    };
+  }, []);
   return (
-    <div className="container mt-5">
-      <h2 className="text-center">Lessons for "{decodedCourseName}"</h2>
+    <div className="course-lessons-container mt-4 px-3">
+      <div className="course-header text-center mb-5">
+        <h2 className="course-title">Lessons for {decodedCourseName}</h2>
+        <p className="course-subtitle">
+          Choose a lesson below to start learning and track your progress
+        </p>
+      </div>
       {lessons.length === 0 ? (
         <p className="text-center mt-4">No available lessons.</p>
       ) : (
-        <div className="row">
+        <div className="row w-100">
           {lessons.map((lesson, index) => (
             <div key={index} className="col-md-4 mb-4">
-              <div className="card p-3 shadow-sm lesson-card">
+              <div className="lesson-card h-100">
                 {/* Progress fill background */}
                 <div
                   className="lesson-card-fill"
@@ -68,12 +78,12 @@ const CourseLessons = () => {
 
                 {/* Lesson content */}
                 <div className="lesson-card-content">
-                  <h5 className="text-center">{lesson}</h5>
+                  <h5>{lesson}</h5>
                   <Link
                     to={`/course/${encodeURIComponent(
                       courseName
                     )}/lesson/${encodeURIComponent(lesson)}`}
-                    className="btn btn-outline-primary w-100 mt-2"
+                    className="btn btn-info w-100 fw-semibold mt-3"
                   >
                     Open Lesson
                   </Link>

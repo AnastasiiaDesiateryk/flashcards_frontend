@@ -80,8 +80,19 @@ const GamePuzzle = () => {
 
   return (
     <div className="container mt-5 text-center">
-      <h2>Puzzle Game</h2>
-      <h4>Lesson: {decodedLessonName}</h4>
+      <div className="d-flex flex-wrap justify-content-center align-items-center my-5 gap-4">
+        <Link
+          to={`/course/${encodeURIComponent(
+            courseName
+          )}/lesson/${encodeURIComponent(lessonName)}`}
+          className="btn btn-dark text-white rounded-circle d-flex justify-content-center align-items-center"
+          style={{ width: "50px", height: "50px" }}
+        >
+          ←
+        </Link>
+
+        <h1>Puzzle Game: {decodedLessonName}</h1>
+      </div>
 
       {words.length === 0 ? (
         <p>No words available in this lesson.</p>

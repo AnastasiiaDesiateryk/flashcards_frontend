@@ -3,6 +3,7 @@ import API from "../utils/api";
 import "../styles/MemoGameCore.css";
 import { AuthContext } from "../context/AuthContext";
 import { useParams, Link } from "react-router-dom";
+import "../styles/MemoGameCore.css";
 
 const MemoGameCore = () => {
   const { user } = useContext(AuthContext);
@@ -10,37 +11,25 @@ const MemoGameCore = () => {
   const decodedCourseName = decodeURIComponent(courseName);
   const decodedLessonName = decodeURIComponent(lessonName);
 
+  const [rawWords, setRawWords] = useState([]);
   const [shuffledPairs, setShuffledPairs] = useState([]);
   const [flippedPairs, setFlippedPairs] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState([]);
+  const [round, setRound] = useState(0);
   const [progressUpdated, setProgressUpdated] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
 
-  // Load word data and generate shuffled card pairs
+  const CHUNK_SIZE = 8;
+  const totalRounds = Math.ceil(rawWords.length / CHUNK_SIZE);
+
   useEffect(() => {
     const fetchWords = async () => {
       try {
         const response = await API.get(
           `/words/${user.id}/${decodedCourseName}/${decodedLessonName}`
         );
-        const cardData = response.data;
-
-        const preparedPairs = cardData.flatMap((card) => [
-          {
-            id: `${card._id}-word`,
-            baseId: card._id,
-            type: "word",
-            value: card.word,
-          },
-          {
-            id: `${card._id}-translation`,
-            baseId: card._id,
-            type: "translation",
-            value: card.translation,
-          },
-        ]);
-
-        setShuffledPairs(preparedPairs.sort(() => Math.random() - 0.5));
+        setRawWords(response.data);
+        setRound(0);
       } catch (error) {
         console.error("Error fetching words for the game:", error);
       }
@@ -49,7 +38,31 @@ const MemoGameCore = () => {
     fetchWords();
   }, [user.id, decodedCourseName, decodedLessonName]);
 
-  // Handle clicking on a card
+  useEffect(() => {
+    const start = round * CHUNK_SIZE;
+    const current = rawWords.slice(start, start + CHUNK_SIZE);
+
+    const pairs = current.flatMap((card) => [
+      {
+        id: `${card._id}-word`,
+        baseId: card._id,
+        type: "word",
+        value: card.word,
+      },
+      {
+        id: `${card._id}-translation`,
+        baseId: card._id,
+        type: "translation",
+        value: card.translation,
+      },
+    ]);
+
+    setShuffledPairs(pairs.sort(() => Math.random() - 0.5));
+    setFlippedPairs([]);
+    setMatchedPairs([]);
+    setGameFinished(false);
+  }, [rawWords, round]);
+
   const handlePairClick = (card) => {
     if (matchedPairs.includes(card.id) || flippedPairs.includes(card)) return;
 
@@ -58,9 +71,9 @@ const MemoGameCore = () => {
         const audio = new Audio(
           `http://localhost:5000/speak/${encodeURIComponent(card.value)}`
         );
-        audio.play().catch((err) => {
-          console.warn("Audio could not be played:", err);
-        });
+        audio
+          .play()
+          .catch((err) => console.warn("Audio could not be played:", err));
       } catch (error) {
         console.warn("Audio error:", error);
       }
@@ -71,47 +84,46 @@ const MemoGameCore = () => {
 
     if (newFlippedPairs.length === 2) {
       const [firstCard, secondCard] = newFlippedPairs;
-
       if (firstCard.baseId === secondCard.baseId) {
         setMatchedPairs((prev) => [...prev, firstCard.id, secondCard.id]);
-        setTimeout(() => {
-          setFlippedPairs([]);
-        }, 500);
+        setTimeout(() => setFlippedPairs([]), 500);
       } else {
-        setTimeout(() => {
-          setFlippedPairs([]);
-        }, 1000);
+        setTimeout(() => setFlippedPairs([]), 1000);
       }
     } else if (newFlippedPairs.length > 2) {
       setFlippedPairs([]);
     }
   };
 
-  // Update lesson progress when the game is finished
   useEffect(() => {
     const allMatched =
       shuffledPairs.length > 0 && matchedPairs.length === shuffledPairs.length;
 
-    if (allMatched && !progressUpdated) {
-      const incrementProgress = async () => {
-        try {
-          await API.patch("/lesson-progress/increment", {
-            userId: user.id,
-            courseName: decodedCourseName,
-            lessonName: decodedLessonName,
-          });
-          setProgressUpdated(true);
-          setGameFinished(true);
-        } catch (error) {
-          console.error("Failed to update progress:", error);
-        }
-      };
-
-      incrementProgress();
+    if (allMatched) {
+      if (round + 1 >= totalRounds && !progressUpdated) {
+        const updateProgress = async () => {
+          try {
+            await API.patch("/lesson-progress/increment", {
+              userId: user.id,
+              courseName: decodedCourseName,
+              lessonName: decodedLessonName,
+            });
+            setProgressUpdated(true);
+            setGameFinished(true);
+          } catch (error) {
+            console.error("Failed to update progress:", error);
+          }
+        };
+        updateProgress();
+      } else {
+        setGameFinished(true);
+      }
     }
   }, [
     matchedPairs,
     shuffledPairs,
+    round,
+    totalRounds,
     user.id,
     decodedCourseName,
     decodedLessonName,
@@ -120,10 +132,12 @@ const MemoGameCore = () => {
 
   return (
     <div className="memory-game-container">
-      {/* Header with back button and title */}
+      {/* Header */}
       <div className="d-flex flex-wrap justify-content-center align-items-center my-5 gap-4">
         <Link
-          to="../"
+          to={`/course/${encodeURIComponent(
+            courseName
+          )}/lesson/${encodeURIComponent(lessonName)}`}
           className="btn btn-dark text-white rounded-circle d-flex justify-content-center align-items-center"
           style={{ width: "50px", height: "50px" }}
         >
@@ -132,7 +146,7 @@ const MemoGameCore = () => {
         <h1>Memory Game: {decodedLessonName}</h1>
       </div>
 
-      {/* Card grid */}
+      {/* Cards */}
       <div className="memory-grid">
         {shuffledPairs.map((card) => (
           <div
@@ -154,18 +168,30 @@ const MemoGameCore = () => {
         ))}
       </div>
 
-      {/* Completion message and back link */}
-      {gameFinished && (
-        <div className="text-center my-5">
-          <h2 className="mb-3">Congratulations! Lesson completed.</h2>
-          <Link
-            to={`/course/${encodeURIComponent(courseName)}`}
-            className="btn btn-success"
+      {/* Round/Progress Buttons */}
+      {gameFinished && round + 1 < totalRounds && (
+        <div className="text-center my-4">
+          <button
+            className="btn btn-primary"
+            onClick={() => setRound((r) => r + 1)}
           >
-            Back to Lessons
-          </Link>
+            Next Round →
+          </button>
         </div>
       )}
+      {shuffledPairs.length > 0 &&
+        matchedPairs.length === shuffledPairs.length &&
+        round + 1 === totalRounds && (
+          <div className="text-center my-5">
+            <h2 className="mb-3">🎉 Congratulations! Lesson completed.</h2>
+            <Link
+              to={`/course/${encodeURIComponent(courseName)}`}
+              className="btn btn-success"
+            >
+              Back to Lessons
+            </Link>
+          </div>
+        )}
     </div>
   );
 };

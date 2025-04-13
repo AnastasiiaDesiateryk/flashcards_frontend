@@ -94,15 +94,15 @@ const Home = () => {
         </motion.div>
 
         <motion.div
-          className="d-flex gap-3 justify-content-center flex-wrap mt-4"
+          className="d-flex gap-3 justify-content-center flex-wrap mt-4 mb-5" // <- добавили mb-5
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
         >
-          <Link to="/courses" className="btn btn-dark">
+          <Link to="/courses" className="btn btn-dark px-4 py-2">
             Go to Courses
           </Link>
-          <Link to="/profile" className="btn btn-outline-secondary px-4">
+          <Link to="/profile" className="btn btn-outline-secondary px-4 py-2">
             View Profile
           </Link>
         </motion.div>

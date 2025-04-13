@@ -1,35 +1,73 @@
-.progress-bar-container {
-  height: 12px;
-  background-color: #e0e0e0;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-top: 10px;
+/* 🧱 Body background for course lessons page */
+body.course-lessons-page {
+  background: radial-gradient(circle at center, #f0f0f0, #e0e0e0);
 }
 
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(to right, #00c6ff, #0072ff);
-  transition: width 0.6s ease;
+.course-header {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  text-align: center;
 }
 
+.course-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.course-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 0.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* 📦 Main lesson card container */
 .lesson-card {
-  position: relative;
+  position: relative; /* Needed for absolutely positioned fill layer */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95),
+    rgba(245, 245, 245, 0.95)
+  );
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  height: 100%;
   overflow: hidden;
-  border-radius: 8px;
-  background-color: white;
-  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
 }
 
+/* 🔄 Hover effect */
+.lesson-card:hover {
+  transform: translateY(-5px);
+}
+
+/* 🔵 Progress fill background (заливка по прогрессу) */
 .lesson-card-fill {
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
-  background: linear-gradient(to right, #d4edda, #d4edda);
-  z-index: 0;
-  transition: width 0.6s ease;
+  height: 100%;
+  width: 0%; /* This gets dynamically updated via inline-style */
+  background: linear-gradient(
+    135deg,
+    rgba(0, 123, 255, 0.15),
+    rgba(0, 123, 255, 0.1)
+  );
+  border-radius: 20px;
+  z-index: 1;
+  transition: width 0.4s ease;
 }
 
+/* 🧾 Card content stays above progress fill */
 .lesson-card-content {
   position: relative;
   z-index: 2;
