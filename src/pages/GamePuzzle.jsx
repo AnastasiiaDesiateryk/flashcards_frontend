@@ -47,7 +47,7 @@ const GamePuzzle = () => {
     }
   };
 
-  // 🔥 Update progress once game is finished
+  // Update progress once game is finished
   useEffect(() => {
     if (gameFinished && !progressUpdated) {
       const incrementProgress = async () => {

@@ -102,9 +102,9 @@ const Home = () => {
           <Link to="/courses" className="btn btn-dark px-4 py-2">
             Go to Courses
           </Link>
-          <Link to="/profile" className="btn btn-outline-secondary px-4 py-2">
+          {/* <Link to="/profile" className="btn btn-outline-secondary px-4 py-2">
             View Profile
-          </Link>
+          </Link> */}
         </motion.div>
       </div>
     </motion.div>

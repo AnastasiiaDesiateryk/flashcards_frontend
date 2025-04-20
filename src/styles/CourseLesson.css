@@ -1,4 +1,4 @@
-/* 🧱 Body background for course lessons page */
+/* Body background for course lessons page */
 body.course-lessons-page {
   background: radial-gradient(circle at center, #f0f0f0, #e0e0e0);
 }
@@ -26,7 +26,7 @@ body.course-lessons-page {
   line-height: 1.6;
 }
 
-/* 📦 Main lesson card container */
+/* Main lesson card container */
 .lesson-card {
   position: relative; /* Needed for absolutely positioned fill layer */
   background: linear-gradient(
@@ -45,12 +45,12 @@ body.course-lessons-page {
   transition: transform 0.3s ease;
 }
 
-/* 🔄 Hover effect */
+/* Hover effect */
 .lesson-card:hover {
   transform: translateY(-5px);
 }
 
-/* 🔵 Progress fill background (заливка по прогрессу) */
+/*  Progress fill background */
 .lesson-card-fill {
   position: absolute;
   top: 0;
@@ -67,7 +67,7 @@ body.course-lessons-page {
   transition: width 0.4s ease;
 }
 
-/* 🧾 Card content stays above progress fill */
+/*  Card content stays above progress fill */
 .lesson-card-content {
   position: relative;
   z-index: 2;

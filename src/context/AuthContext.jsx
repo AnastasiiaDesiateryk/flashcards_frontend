@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   // State to check if user is authenticated
-  const [isAuth, setIsAuth] = useState(null); // 🔥 Initially null to avoid flicker
+  const [isAuth, setIsAuth] = useState(null); //  Initially null to avoid flicker
 
   // State to show if authentication is being checked
   const [loading, setLoading] = useState(true);

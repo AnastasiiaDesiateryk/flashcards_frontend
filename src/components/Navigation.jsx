@@ -34,11 +34,11 @@ const Navigation = () => {
             </li>
             {isAuth && (
               <>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" to="/profile">
                     Profile
                   </Link>
-                </li>
+                </li> */}
                 <li className="nav-item">
                   <Link className="nav-link" to="/courses">
                     Courses

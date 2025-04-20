@@ -5,7 +5,7 @@ const PuzzleGameCore = ({ wordData, onNext }) => {
   const [shuffledLetters, setShuffledLetters] = useState([]);
   const [assembledWord, setAssembledWord] = useState([]);
 
-  // 🛠️ Initialize the game when wordData changes
+  // Initialize the game when wordData changes
   const initializeGame = useCallback(() => {
     if (!wordData) return;
     const shuffled = wordData.word.split("").sort(() => Math.random() - 0.5);

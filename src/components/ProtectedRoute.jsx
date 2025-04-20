@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
 
   // Show loading message while checking authentication
   if (loading) {
-    return <div>Loading...</div>; // 🔥 Show a loading indicator while auth check is in progress
+    return <div>Loading...</div>; // Show a loading indicator while auth check is in progress
   }
 
   // If user is authenticated, show the protected content
